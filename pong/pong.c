@@ -79,17 +79,18 @@ void reset(Circle* ball, Player* p1, Player* p2) {
 	// randomly assigns the balls' v_x and v_y
 	ball->v_x = (rand()%2==0 ? BALL_SPEED: -BALL_SPEED);
 	ball->v_y = (rand()%2==0 ? BALL_SPEED/2 : -BALL_SPEED/2);
-	SDL_Delay(1000);
-	printf("PLAYER 1: %d\nPLAYER 2: %d\n\n", p1->score, p2->score);
+	//printf("PLAYER 1: %d\nPLAYER 2: %d\n\n", p1->score, p2->score);
 }
 
 void step(Circle* circle, Player* players[]){
 	if (circle->x > WIDTH) {
 		reset(circle, players[0], players[1]);
 		players[0]->score++;
+		SDL_Delay(1000);
 	} else if (circle->x < 0) {
 		reset(circle, players[0], players[1]);
 		players[1]->score++;
+		SDL_Delay(1000);
 	}
 	for (int i=0; i<2; i++){
 		if (check_collision(circle, players[i])) {
@@ -111,6 +112,20 @@ void input_handle(Player* player1, Player* player2) {
 	if (keystate[SDL_SCANCODE_DOWN]) player2->y += SPEED;		
 }
 
+void countdown(SDL_Surface* surface, SDL_Window* window, TTF_Font* font, SDL_Color text_color) {
+	char countdown_text[2];
+	SDL_Rect text_rect = (SDL_Rect){WIDTH/2, HEIGHT/2, 100, 100};
+	for (int i=3; i>0; i--) {
+		snprintf(countdown_text, sizeof(countdown_text), "%d", i);
+		SDL_Surface* text_surface = TTF_RenderText_Solid(font, countdown_text, text_color);
+		SDL_FillRect(surface, &text_rect, COLOR_BLACK);
+		SDL_BlitSurface(text_surface, NULL, surface, &text_rect);
+		SDL_UpdateWindowSurface(window);
+		SDL_FreeSurface(text_surface);
+		SDL_Delay(1000);
+	}
+}
+
 int main() {
 
 	SDL_Init(SDL_INIT_VIDEO);
@@ -125,7 +140,7 @@ int main() {
 
 	SDL_Surface* surface = SDL_GetWindowSurface(window);
 	
-	TTF_Font* font = TTF_OpenFont("Roboto-Regular.ttf", 24);
+	TTF_Font* font = TTF_OpenFont("Roboto-Regular.ttf", 25);
 	if (!font) {
 		printf("font not loaded\n");
 	}
@@ -150,6 +165,7 @@ int main() {
 	Player* players[] = {&player1, &player2};
 	
 	Circle circle = {WIDTH/2, HEIGHT/2, BALL_SIZE, BALL_SPEED, BALL_SPEED};
+	countdown(surface, window, font, text_color);
 	reset(&circle, &player1, &player2);
 	SDL_Rect erase = (SDL_Rect){0, 0, WIDTH, HEIGHT};
 	SDL_Event event;
