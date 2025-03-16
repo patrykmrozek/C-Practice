@@ -21,11 +21,13 @@
 typedef struct {
 	double x, y, w, h;
 	int score;
+  Uint32 color;
 } Player;
 
 
 typedef struct {
 	double x, y, r, v_x, v_y;
+  Uint32 color;
 } Circle;
 
 //function prototypes - independant ordering, more readable
@@ -35,7 +37,7 @@ TTF_Font* load_font();
 void init_players(Player* player1, Player* player2);
 void init_circle(Circle* circle);
 void draw_player(SDL_Surface* surface, Player* player);
-void draw_circle(SDL_Surface* surface, Circle circle, Uint32 color);
+void draw_circle(SDL_Surface* surface, Circle circle);
 void draw_score(SDL_Surface* surface, TTF_Font* font, Player player1, Player player2);
 void step(SDL_Surface* surface, Circle* circle, Player* players[]);
 void reset_circle(Circle* circle);
@@ -88,7 +90,8 @@ void init_players(Player* player1, Player* player2) {
 		PLAYER_1_Y_INIT,
 		PLAYER_W,
 		PLAYER_H,
-		0
+		0,
+    COLOR_WHITE
 	};
 	
 	*player2 = (Player) {
@@ -96,7 +99,8 @@ void init_players(Player* player1, Player* player2) {
 		PLAYER_2_Y_INIT,
 		PLAYER_W,
 		PLAYER_H,
-		0
+		0,
+    COLOR_WHITE
 	};
 
 }
@@ -107,20 +111,22 @@ void init_circle(Circle* circle) {
 		HEIGHT/2,
 		BALL_SIZE,
 		BALL_SPEED,
-		BALL_SPEED};	
+		BALL_SPEED,
+    COLOR_WHITE
+  };	
 }
 
 //draw player to surface
 void draw_player(SDL_Surface* surface, Player* player) {
 	SDL_Rect player_rect = (SDL_Rect) {player->x, player->y, player->w, player->h};
-	SDL_FillRect(surface, &player_rect, COLOR_WHITE);
+	SDL_FillRect(surface, &player_rect, player->color);
 	//printf("_INITPLAYER DRAWN!\n");
 }
 
 //checks every pixel in the rectangle
 //if the distance from the center of the rect to the pixel < radius of the circle
 //fill in the pixel
-void draw_circle(SDL_Surface* surface, Circle circle, Uint32 color) {
+void draw_circle(SDL_Surface* surface, Circle circle) {
 	//printf("CIRCLE!\n");
 	for (double x=circle.x-circle.r; x<circle.x+circle.r; x++) {
 		for (double y=circle.y-circle.r; y<circle.y+circle.r; y++) {
@@ -128,7 +134,7 @@ void draw_circle(SDL_Surface* surface, Circle circle, Uint32 color) {
 			//printf("Distance: %f\n", distance);
 			if (distance < circle.r) {
 				SDL_Rect pixel =(SDL_Rect){x, y, 1, 1};
-				SDL_FillRect(surface, &pixel, color);
+				SDL_FillRect(surface, &pixel, circle.color);
 			}
 		}
 	}
@@ -252,7 +258,7 @@ void render(SDL_Surface* surface, SDL_Window* window, Player* player1, Player* p
 	clear_screen(surface);
 	draw_player(surface, player1);
 	draw_player(surface, player2);
-	draw_circle(surface,*circle, COLOR_WHITE);
+	draw_circle(surface,*circle);
 	draw_score(surface, font, *player1, *player2);
 	SDL_UpdateWindowSurface(window);
 	//printf("RENDER!\n");
