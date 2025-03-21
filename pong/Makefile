@@ -14,7 +14,8 @@ SRC_FILES = $(SRC_DIR)/main.c \
             $(SRC_DIR)/ball.c \
             $(SRC_DIR)/window.c \
             $(SRC_DIR)/render.c \
-            $(SRC_DIR)/game.c
+            $(SRC_DIR)/game.c \
+						$(SRC_DIR)/menu.c
 
 OBJ_FILES = $(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

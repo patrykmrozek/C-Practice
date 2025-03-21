@@ -4,7 +4,6 @@
 #include "ball.h"
 #include "window.h"
 #include "render.h"
-#include "menu.h"
 //function prototypes - independant ordering, more readable
 
 int main() {
@@ -24,31 +23,29 @@ int main() {
 	SDL_PumpEvents();
 
 	Player* players[] = {&player1, &player2};
-	//countdown(surface, window, font);
+	countdown(surface, window, font);
 	SDL_Event event;
 	int programRunning = 1;
 	int gamePlaying = 0;
 
   while (programRunning) {
 		if (SDL_PollEvent(&event)) {
-			if (event.type == SDL_QUIT || gamePlaying == 2) {
+			if (event.type == SDL_QUIT) {
 				programRunning = 0;
 			}
 		}
 
-      if (gamePlaying == 1) {
+      if (gamePlaying) {
     //	printf("CIRCLE X: %f, Y: %f\n", circle.x, circle.y);
-       input_handle(&player1, &player2, window, &programRunning);
-       step(surface, &ball, players);
-       in_bounds(players);
-       draw_frame(surface, window, &player1, &player2, &ball, font);
-       SDL_Delay(16); //approx 60 fps
+      input_handle(&player1, &player2, window, &programRunning);
+      step(surface, &ball, players);
+      in_bounds(players);
+      draw_frame(surface, window, &player1, &player2, &ball, font);
+      SDL_Delay(16); //approx 60 fps
 	
-    } else {
-        gamePlaying = draw_menu(surface, window, event, font);
-        printf("GAMEPLAYING: %d\n", gamePlaying);
-      //printf("paused");
-      //SDL_Delay(1000);
+    } else if (!gamePlaying) {
+      printf("paused");
+      SDL_Delay(1000);
     }
   }
 	shutdown(window);	
