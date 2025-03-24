@@ -46,7 +46,7 @@ int main() {
 	
     } else {
         gamePlaying = draw_menu(surface, window, event, font);
-        printf("GAMEPLAYING: %d\n", gamePlaying);
+        //printf("GAMEPLAYING: %d\n", gamePlaying);
       //printf("paused");
       //SDL_Delay(1000);
     }

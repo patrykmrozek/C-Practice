@@ -12,7 +12,7 @@ void init_ball(Ball* ball) {
     COLOR_WHITE
   };	
 }
-
+ 
 
 //calculates balls position for the next frame
 void step(SDL_Surface* surface, Ball* ball, Player* players[]){
@@ -38,6 +38,7 @@ void step(SDL_Surface* surface, Ball* ball, Player* players[]){
 		//if they do, reverse the x velocity of the ball
 		if (check_collision(ball, players[i])) {
 			ball->v_x = -ball->v_x;
+      ball->v_y = -(players[i]->y) / ball->v_y; 
 		}
 	}
 	//if ball hits off of the ceiling or the ground
