@@ -22,14 +22,14 @@ void step(SDL_Surface* surface, Ball* ball, Player* players[]){
 	//if ball exits on the right side of the screen
 	if (ball->x > WIDTH) {
 		reset_ball(ball);
-		reset_players(players[0], players[1]);
+		//reset_players(players[0], players[1]);
 		players[0]->score++;
 		SDL_Delay(1000);
 
 	//if the ball exits on the left side of the screen
 	} else if (ball->x < 0) {
 		reset_ball(ball);
-		reset_players(players[0], players[1]);
+		//reset_players(players[0], players[1]);
 		players[1]->score++;
 		SDL_Delay(1000);
 	}

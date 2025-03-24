@@ -31,21 +31,25 @@ int main() {
 
   while (programRunning) {
 		if (SDL_PollEvent(&event)) {
-			if (event.type == SDL_QUIT || gamePlaying == 2) {
+			if (event.type == SDL_QUIT) {
 				programRunning = 0;
 			}
 		}
 
       if (gamePlaying == 1) {
     //	printf("CIRCLE X: %f, Y: %f\n", circle.x, circle.y);
-       input_handle(&player1, &player2, window, &programRunning);
+       input_handle(&player1, &player2, window, &programRunning, &gamePlaying);
        step(surface, &ball, players);
        in_bounds(players);
        draw_frame(surface, window, &player1, &player2, &ball, font);
        SDL_Delay(16); //approx 60 fps
-	
-    } else {
+    }
+      else if (gamePlaying == 0) {
         gamePlaying = draw_menu(surface, window, event, font);
+
+    }else {
+        programRunning = 0;
+        break;
         //printf("GAMEPLAYING: %d\n", gamePlaying);
       //printf("paused");
       //SDL_Delay(1000);

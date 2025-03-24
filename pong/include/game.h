@@ -14,7 +14,7 @@ void reset_players(Player* player1, Player* player2);
 int check_collision(Ball* ball, Player* player);
 void clear_screen(SDL_Surface* surface);
 int shutdown(SDL_Window* window);
-void input_handle(Player* player1, Player* player2, SDL_Window* window, int* programRunning);
+void input_handle(Player* player1, Player* player2, SDL_Window* window, int* programRunning, int* gamePlaying);
 
 
 #endif

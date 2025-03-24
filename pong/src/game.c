@@ -45,11 +45,12 @@ int shutdown(SDL_Window* window) {
 }
 
 //handle user inputs
-void input_handle(Player* player1, Player* player2, SDL_Window* window, int* programRunning) {
+void input_handle(Player* player1, Player* player2, SDL_Window* window, int* programRunning, int* gamePlaying) {
 	const Uint8* keystate = SDL_GetKeyboardState(NULL);
 	if (keystate[SDL_SCANCODE_W]) player1->y -= SPEED;
 	if (keystate[SDL_SCANCODE_S]) player1->y += SPEED;
 	if (keystate[SDL_SCANCODE_UP]) player2->y -= SPEED;
 	if (keystate[SDL_SCANCODE_DOWN]) player2->y += SPEED;		
 	if (keystate[SDL_SCANCODE_Q]) *programRunning = 0;
+  if (keystate[SDL_SCANCODE_P]) *gamePlaying = 0;
 }
